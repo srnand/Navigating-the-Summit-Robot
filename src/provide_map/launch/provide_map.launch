@@ -1,0 +1,5 @@
+<launch>
+    <arg name="map_file" default="$(find summit_teleop)/maps/summit_project.yaml"/>
+    <node pkg="map_server" type="map_server" name="map_server" args="$(arg map_file)">
+    </node>
+</launch>
