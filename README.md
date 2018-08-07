@@ -21,3 +21,10 @@ Navigation of the Summit Robot, performing Mapping, Localization, Path Planning,
 * Started with a random distribution of the particles predicting the position of the robot and localized the summit, after serios amount of teleoperation.
 * Created a custom service which registers into a file, label and their respective pose(positional and orientational) used to store some spots of the environment.
 
+### Environment with initial random distribution of particles
+<img src="images/Screen Shot 2018-08-07 at 3.09.14 AM.png" width=650 height=350 >
+<br/>
+
+### Environment after localization
+<img src="images/Screen Shot 2018-08-07 at 3.06.58 AM.png" width=650 height=400 >
+<br/>
