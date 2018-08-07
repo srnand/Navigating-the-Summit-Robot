@@ -14,3 +14,10 @@ Navigation of the Summit Robot, performing Mapping, Localization, Path Planning,
 ### Map of the Environment 
 <img src="images/Screen Shot 2018-08-06 at 4.00.23 AM.png" width=650 height=400 >
 <br/>
+
+## Localization
+
+* Used the map generated in the mapping part and used the map-server node for monte carlo localization(amcl).
+* Started with a random distribution of the particles predicting the position of the robot and localized the summit, after serios amount of teleoperation.
+* Created a custom service which registers into a file, label and their respective pose(positional and orientational) used to store some spots of the environment.
+
