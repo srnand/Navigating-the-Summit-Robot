@@ -34,3 +34,9 @@ Navigation of the Summit Robot, performing Mapping, Localization, Path Planning,
 * Used the map generated in the mapping part and the amcl launch file from the previous parts.
 * Launched a move_base node with common parameters.
 * Performed autonomous navigation using Navfn planner which uses Dijkstra's Algorithm. 
+
+### Path Planning In Action
+<img src="images/Screen Shot 2018-08-08 at 1.51.47 AM.png" width=650 height=400 >
+<br/>
+
+
