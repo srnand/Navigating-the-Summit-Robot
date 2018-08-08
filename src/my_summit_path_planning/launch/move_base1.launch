@@ -1,0 +1,11 @@
+<launch>
+
+<!--arg name="map_file" default="$(find summit_xl_navigation)/maps/map1/map1.yaml"/>
+<node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" /-->
+
+<include file="$(find my_summit_localization)/launch/summit_localization.launch" />
+<!--include file="$(find summit_xl_navigation)/launch/amcl.launch" /-->
+<remap from="cmd_vel" to="/move_base/cmd_vel" />
+
+<include file="$(find my_summit_path_planning)/launch/move_base2.launch" />
+</launch>
