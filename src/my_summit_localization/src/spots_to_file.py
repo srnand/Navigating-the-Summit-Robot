@@ -1,30 +1,41 @@
 #! /usr/bin/env python
 
 import rospy
-from my_summit_localization.srv import MyServiceMessage
-from std_srvs.srv import Empty, EmptyRequest
-from geometry_msgs.msg import Pose
+from my_summit_localization.srv import MyServiceMessage, MyServiceMessageResponse
+from geometry_msgs.msg import Pose, PoseWithCovarianceStamped
 
 
-count=0
-
-def callBack(request):
-    pose=Pose()
-    count+=1
-    string=""
-    string=pose.position.x+" "+pose.position.y+" "+pose.position.z+" "+pose.orientation.x+" "+pose.orientation.y+" "+pose.orientation.z+" "+pose.orientation.w
-    MyServiceMessageResponse.navigation_successful=True
-    MyServiceMessageResponse.message = request.label+" : "+string
+class SaveSpot():
+    def __init__(self):
+        self._pose = PoseWithCovarianceStamped()
+        self.detection_dict = {"turtle":self._pose, "table":self._pose, "room":self._pose}
+        self.my_service = rospy.Service('/save_spot',MyServiceMessage,self.callBack)
+        self._pose_sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped , self.sub_callBack)
     
-    print MyServiceMessageResponse.message
+    def sub_callBack(self, request):
+        self._pose=request
     
-    if count==3:
-        f=open('spots.txt','w')
-        f.write(MyServiceMessageResponse.message)
-        f.close()
-    return MyServiceMessageResponse
+    def callBack(self, request):
+        if request.label=="turtle":
+            self.detection_dict["turtle"]=self._pose
+            MyServiceMessageResponse.message = "Saved Pose for turtle spot"
+        elif request.label=="table":
+            self.detection_dict["table"]=self._pose
+            MyServiceMessageResponse.message = "Saved Pose for table spot"
+        elif request.label=="room":
+            self.detection_dict["room"]=self._pose
+            MyServiceMessageResponse.message = "Saved Pose for room spot"
+        elif request.label=="end":
+            f=open('spots.txt','w')
+            for key, value in self.detection_dict.iteritems():
+                    if value:
+                        f.write(str(key) + ':\n----------\n' + str(value) + '\n===========\n')
+            f.close()
+            response.message = "Written Poses to spots.txt file"
+        MyServiceMessageResponse.navigation_successful=True
+        return MyServiceMessageResponse
 
 rospy.init_node('spot_recorder')
-my_service = rospy.Service('/save_spot',MyServiceMessage,callBack)
 
+save_spot = SaveSpot()
 rospy.spin()
